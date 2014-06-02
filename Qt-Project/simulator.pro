@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = simulator
 TEMPLATE = app
 
+INCLUDEPATH += "C:\opencv\build\include"
+LIBS += "C:/opencv/build/x86/vc12/bin/*.dll"
 
 SOURCES += main.cpp\
         mainwindow.cpp \
