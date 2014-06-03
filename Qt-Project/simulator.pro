@@ -11,8 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = simulator
 TEMPLATE = app
 
-INCLUDEPATH += "C:\opencv\build\include"
-LIBS += "C:/opencv/build/x86/vc12/bin/*.dll"
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -24,7 +22,9 @@ SOURCES += main.cpp\
     simulation.cpp \
     camerascontainer.cpp \
     path.cpp \
-    object.cpp
+    object.cpp \
+    dialog.cpp \
+    jsonparser.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -35,8 +35,11 @@ HEADERS  += mainwindow.h \
     simulation.h \
     camerascontainer.h \
     path.h \
-    object.h
+    object.h \
+    jsonparser.h \
+    dialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog.ui
 
 CONFIG += c++11

@@ -14,7 +14,7 @@ public:
 	}
 	void draw();
 	static void initTextures();
-	static void	initPos(int x, int y, int pos, double d);
+    static void	initPos(int x, int y, int pos, double d);
 	TileType	tType_;
 	uchar		dir_;
 private:

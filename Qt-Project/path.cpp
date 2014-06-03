@@ -39,7 +39,8 @@ void Path::walk(double dist)
 
 double WayPoint::walk(const double &dist)
 {
-	glRotated(a_, 0.0, 0.0, 1.0);
+    glRotated(a_, 0.0, 0.0, 1.0);
+    //glRotated(d_, a_, 0.0, 1.0);
 	if (d_ < 0.0d)
 		return dist;
 

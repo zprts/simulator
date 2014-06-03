@@ -3,8 +3,6 @@
 
 #include <QVector3D>
 #include <QtCore/qmath.h>
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
 #include "city.h"
 #include "simulation.h"
 
@@ -34,8 +32,7 @@ public:
 		name_ = name;
 	}
 private:
-    cv::Mat     QImage2Mat(QImage const& src);
-	QVector3D	pos_ = {0.0, 0.0, 0.1};
+    QVector3D	pos_ = {0.0, 0.0, 1.1};
 	QVector3D	step_;
 	qreal		angleXY_ = 0.0;
 	qreal		angleZ_ = -M_PI_2*0.3f;

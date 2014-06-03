@@ -3,6 +3,7 @@
 
 #include "city.h"
 #include "object.h"
+#include <QTimer>
 
 class Camera;
 
@@ -18,13 +19,19 @@ public:
 	void setSimulationTime(double time) {
 		time_ = time;
 	}
-	void drawAll();
+    void drawAll();
+
+    void addObject(QString type, double x, double y);
+    void addPath(int idObject, double x, double y);
+
+    double incr_time();
 private:
 	Simulation() {}
 	explicit Simulation(Simulation &) {}
 	double		time_ = 0.0;
+    double      max_time;
 	City		city_;
-	QVector<std::shared_ptr<Object>>	obj_;
+    QVector<std::shared_ptr<Object>>	obj_;
 };
 
 #endif // SIMULATION_H

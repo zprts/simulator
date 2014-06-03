@@ -1,4 +1,5 @@
 #include "glwidget.h"
+#include <iostream>
 
 
 GLWidget::GLWidget(QWidget *parent) :
@@ -24,7 +25,8 @@ void GLWidget::initializeGL() {
 		QMessageBox::information(nullptr, "Loading texture error", e.getDesc());
 		QCoreApplication::exit(1);	//Hmmm, probably exist a little bit more elegant solution...
 	}
-	Simulation::getInstance()->load("");
+    Simulation::getInstance()->load("");
+    //Simulation::getInstance()->readJSon();
 }
 void GLWidget::paintGL() {
 	cc_.use();
@@ -99,5 +101,66 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-	point_ = event->pos();
+    point_ = event->pos();
+    if (addPointMode) {
+        QVector3D pos = getPos(point_.x(), point_.y());
+
+        d_->addPoint(pos.x(), pos.y());
+        addPointMode = false;
+        //d_->setModal(true);
+
+        //QList<QStandardItem *> list;
+        //list << new QStandardItem("mru");
+
+        //pointModel->appendRow(list);
+        //pointModel->appendRow(new QStandardItem("QString::number(3.0d)"));
+
+    //if (mouse == 0) {
+        //std::cout<<pos.x()<<std::endl;
+        //Simulation::getInstance()->add(pos.x(),pos.y(),pos.z());
+        //mouse++;
+    //} else if (mouse == 1) {
+        //Simulation::getInstance()->addWayPoint(pos.x(),pos.y());
+    //}
+    }
+}
+
+QVector3D GLWidget::getPos(int posX, int posY)
+{
+    GLdouble x1, y1, z1;
+    GLdouble x2, y2, z2;
+    GLdouble winX, winY;
+
+    GLdouble model_view[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
+    GLdouble projection[16];
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    winX = posX;
+    winY = viewport[3]-posY;
+
+    gluUnProject(winX, winY, 0.0d, model_view, projection,
+    viewport, &x1, &y1, &z1);
+
+    gluUnProject(winX, winY, 1.0d, model_view, projection,
+    viewport, &x2, &y2, &z2);
+
+    QVector3D point = {(float)x1, (float)y1, (float)z1};
+    QVector3D v = {(float)(x2-x1), (float)(y2-y1), (float)(z2-z1)};
+
+    float d = (0 - z1)/v.z();
+
+    point = point + d*v;
+    return point;
+}
+
+void GLWidget::setDialog(Dialog *d)
+{
+    d_ = d;
+}
+
+void GLWidget::setAddPointMode(bool mode) {
+    addPointMode = mode;
 }

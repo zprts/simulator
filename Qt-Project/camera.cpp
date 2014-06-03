@@ -66,19 +66,7 @@ QImage Camera::genImage(Simulation *sim)
 	return img;
 }
 
-cv::Mat QImage2Mat(QImage const& inImage)
-{
-    cv::Mat mat( inImage.height(), inImage.width(), CV_8UC4, const_cast<uchar*>(inImage.bits()), inImage.bytesPerLine() );
-    return mat.clone();
-    //ma blizej nieokreslony problem z przekonwertowaniem
-    //mimo const_cast to poprawny i dzialajacy sposob przekonwertowania QImage::Format_RGB32 na cv::Mat
-}
-
 void Camera::genObservation(Simulation *sim)
 {
-    if (sim)
-    using namespace cv;
-    QImage qimgOriginal = this->genImage(sim);
-    Mat imgOriginal = this->QImage2Mat(qimgOriginal);
 
 }

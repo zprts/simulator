@@ -30,7 +30,7 @@ public:
 	static void		drawSmallCar();
 	static void		drawLargeCar();
 private:
-	static std::auto_ptr<GLUquadric> quadric_;
+    static std::auto_ptr<GLUquadric> quadric_;
 };
 
 

@@ -10,6 +10,9 @@
 #include "camera.h"
 #include "simulation.h"
 #include "camerascontainer.h"
+#include "dialog.h"
+
+#include <QStandardItemModel>
 
 class GLWidget : public QGLWidget
 {
@@ -21,17 +24,24 @@ public:
 	void resizeGL(int w, int h);
 
 
-//public slots:
-	void test();
+    void setDialog(Dialog *d);
+    void setAddPointMode(bool mode);
+    //public slots:
+        void test();
 
-signals:
-	void statusEvent(const QString &msg);
+    signals:
+        void statusEvent(const QString &msg);
 
 private:
-	QPoint			point_{};
+    QPoint			point_{};
 	CamerasContainer &cc_;
 	void	mouseMoveEvent ( QMouseEvent * event );
 	void	mousePressEvent ( QMouseEvent * event );
+    QVector3D   getPos ( int posX, int posY );
+
+    bool addPointMode = false;
+
+    Dialog *d_;
 };
 
 
