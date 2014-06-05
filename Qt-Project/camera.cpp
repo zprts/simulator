@@ -68,5 +68,37 @@ QImage Camera::genImage(Simulation *sim)
 
 void Camera::genObservation(Simulation *sim)
 {
+    QImage qImg = this->genImage(sim);
+
+    int colors[3];
+    int red_pxl_number = 0;
+
+    QRgb* line;
+    for(int y = 0; y < qImg.height() ; y++)
+    {
+        line = (QRgb *)qImg.scanLine(y);
+        for(int x = 0; x < qImg.width(); x++)
+        {
+            colors[0] += qRed(line[x]);
+            colors[1] += qGreen(line[x]);
+            colors[2] += qBlue(line[x]);
+
+            if (qRed(line[x]) > 200
+                && (qRed(line[x])/qGreen(line[x]) > 8)
+                && (qRed(line[x])/qBlue(line[x]) > 8))
+                red_pxl_number++;
+            //8 - stosunek dla którego mozna stwierdzic
+            //ze kolor jest 'czerwony'  dobralem recznie
+        }
+    }
+    int qImg_size = qImg.height() * qImg.width();
+
+    double colors_percent[3];
+    for(int k = 0; k < 3; k++)
+        colors_percent[k] = 100*(colors[k]/255)/qImg_size;
+    //procent zapelnienia poszczegolnych przestrzeni barw
+
+    double red_pxl_percent = red_pxl_number/qImg_size;
+    //procent czerwonego na obrazie
 
 }
