@@ -66,39 +66,129 @@ QImage Camera::genImage(Simulation *sim)
 	return img;
 }
 
-void Camera::genObservation(Simulation *sim)
+
+
+int Camera::genObservation(Simulation *sim)
 {
+
+    /* //tak to powinno wyglądać
+     * QColor bigCar;
+     * bigCar.setBlue(0)
+     * bigCar.setRed(255);
+     * bigCar.setGreen(0);
+     * QRgb bigCar_color = (QRgb)bigCar.rgb();
+     */
+
+    QColor red;
+    red.setBlue(0);
+    red.setRed(255);
+    red.setGreen(0);
+    QRgb red_pxl = (QRgb)red.rgb();
+
     QImage qImg = this->genImage(sim);
 
-    int colors[3];
-    int red_pxl_number = 0;
+    if (!qImq) return 0;
 
-    QRgb* line;
-    for(int y = 0; y < qImg.height() ; y++)
+    /* 18:00 nadal nie mogę kodu przetestować
+     * nie wiem jeszcze jak przekazac wszystko na raz, jakąś multimapą
+     * ale to raczej nie duży problem
+     */
+    std::vector<std::pair<int, int> > red_centres = findCentres(&qImg, red_pxl);
+
+    return 1;
+}
+
+std::vector<std::pair<int, int> > Camera::findCentres(QImage *img, QRgb color)
+/*
+ * Przeszukanie obrazu w celu znalezienia plam o okreslonym w argumencie color kolorze
+ * oraz zwrocenie tablicy pikseli srodkowych wszystkich plam,
+ * obliczonych na podstawie sredniej arytmetycznej.
+ */
+{
+    int color_map[IMG_WIDTH][IMG_HEIGHT];
+    for(int y = 0; y < IMG_HEIGHT ; y++)
+        for(int x = 0; x < IMG_WIDTH; x++)
+            color_map[x][y] = 0;
+
+    int color_areas_number = 0;
+    std::vector<int> color_areas_pxl_number;
+
+    for(int y = 0; y < IMG_HEIGHT ; y++)
     {
-        line = (QRgb *)qImg.scanLine(y);
-        for(int x = 0; x < qImg.width(); x++)
+        for(int x = 0; x < IMG_WIDTH; x++)
         {
-            colors[0] += qRed(line[x]);
-            colors[1] += qGreen(line[x]);
-            colors[2] += qBlue(line[x]);
+            if ((img->pixel(x,y) == color) && (color_map[x][y] == 0))
+            {
+                   color_areas_number++;
+                   int temp = 0;
 
-            if (qRed(line[x]) > 200
-                && (qRed(line[x])/qGreen(line[x]) > 8)
-                && (qRed(line[x])/qBlue(line[x]) > 8))
-                red_pxl_number++;
-            //8 - stosunek dla którego mozna stwierdzic
-            //ze kolor jest 'czerwony'  dobralem recznie
+                   fillColorMap(x, y, img, color_map,
+                                color_areas_number, color, &temp);
+                   color_areas_pxl_number.push_back(temp);
+            }
         }
     }
-    int qImg_size = qImg.height() * qImg.width();
 
-    double colors_percent[3];
-    for(int k = 0; k < 3; k++)
-        colors_percent[k] = 100*(colors[k]/255)/qImg_size;
-    //procent zapelnienia poszczegolnych przestrzeni barw
+    std::vector<std::pair<int, int> >centres;
 
-    double red_pxl_percent = red_pxl_number/qImg_size;
-    //procent czerwonego na obrazie
-
+    for (int k = 1; k <= color_areas_number; k++)
+    {
+        int temp_x = 0, temp_y = 0;
+        for(int y = 0; y < IMG_HEIGHT ; y++)
+        {
+            for(int x = 0; x < IMG_WIDTH; x++)
+            {
+                if (color_map[x][y] == k)
+                {
+                    temp_x += x;
+                    temp_y += y;
+                }
+            }
+        }
+        temp_x = round((double)temp_x/color_areas_pxl_number[k-1]);
+        temp_y = round((double)temp_y/color_areas_pxl_number[k-1]);
+        centres.push_back(std::make_pair(temp_x, temp_y));
+        return centres;
+    }
 }
+
+void Camera::fillColorMap(  int x, int y,
+                            QImage *img,
+                            int color_map[IMG_WIDTH][IMG_HEIGHT],
+                            int area_number,
+                            QRgb color,
+                            int *pxl_number)
+/*
+ * Realizacja algorytmu wypelniania przez spojnosc dla siatki czterospojnej
+ * wraz ze sprawdzeniem koncow tablicy plam kolorów (color_map).
+ *
+ * area_number określa numer plamy
+ * color to kolor szukanej plamy
+ * pod pxl_number znajduje się liczba pikseli należących do szukanej plamy *
+ */
+{
+   color_map[x][y] = area_number;
+   *pxl_number++;
+
+    if ((x-1 >= 0)
+        && (color_map[x-1][y] != area_number)
+        && (img->pixel(x-1, y) == color))
+        fillColorMap(x-1, y, img, color_map, area_number, color, pxl_number);
+
+    if ((x+1 < IMG_WIDTH)
+        && (color_map[x+1][y] != area_number)
+        && (img->pixel(x+1,y) == color))
+        fillColorMap(x+1, y, img, color_map, area_number, color, pxl_number);
+
+    if ((y-1 >= 0)
+        && (color_map[x][y-1] != area_number)
+        && (img->pixel(x,y-1) == color))
+        fillColorMap(x, y-1, img, color_map, area_number, color, pxl_number);
+
+    if ((y+1 < IMG_HEIGHT)
+        && (color_map[x][y+1] != area_number)
+        && (img->pixel(x,y+1) == color))
+        fillColorMap(x, y+1, img, color_map, area_number, color, pxl_number);
+}
+
+//http://wazniak.mimuw.edu.pl/index.php?title=GKIW_Modu%C5%82_3_-_Podstawowe_operacje_rastrowe

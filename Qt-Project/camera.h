@@ -37,6 +37,19 @@ private:
 	qreal		angleXY_ = 0.0;
 	qreal		angleZ_ = -M_PI_2*0.3f;
 	QString		name_;
+    enum {IMG_HEIGHT = 128, IMG_WIDTH = 128};
+    //default image size
+    //DELETE: potrzebuje tego anuma, bo inaczej
+    //przekazywanie 2d tablicy o nieznanych wymiarach sie wykrzacza
+
+    void fillColorMap(int x, int y,
+                      QImage *img,
+                      int color_map[IMG_WIDTH][IMG_HEIGHT],
+                      int area_number,
+                      QRgb color,
+                      int* pxl_number);
+
+    std::vector<std::pair<int, int> > findCentres(QImage *img, QRgb color);
 };
 
 #endif // CAMERA_H
