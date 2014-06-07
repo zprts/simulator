@@ -33,10 +33,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-	double dist = 3.1456d;
-	dist = sin(M_PI_2 / 3.0d);
-	QMessageBox::information(nullptr, "Hi!", QCoreApplication::applicationDirPath() + QString(" --> %1").arg(dist));
+	//double dist = 3.1456d;
+	//dist = sin(M_PI_2 / 3.0d);
+	//QMessageBox::information(nullptr, "Hi!", QCoreApplication::applicationDirPath() + QString(" --> %1").arg(dist));
+	//QString path = QCoreApplication::applicationDirPath();
+	//QImage img;
+	//img.load(path + "/test.bmp");
 
+	//Camera::MapBg mbg;
+	//mbg.init(img);
+	//std::vector<std::vector<int>> map = std::vector(img.width(), std::vector<int>(img.height(), 0));
+	//int n = 0;
+	//Camera::fillColorMap(100, 80, &img, mbg, 1, qRgb(255, 0, 0), n);
+	//Camera:: = Camera::genObservation(NULL);
+	//auto list = Camera::findCentres(&img, qRgb(255, 0, 0));
+	Camera::Observation obs;
+	cc_.use();
+		obs = cc_.getCurrentCam()->genObservation(Simulation::getInstance());
+	cc_.free();
+
+	qDebug() << "\npeople:";
+	for (auto p : obs.people) {
+		qDebug() << p.rx() << " x " << p.ry();
+	}
+	qDebug() << "smallC:";
+	for (auto p : obs.smallCars) {
+		qDebug() << p.rx() << " x " << p.ry();
+	}
+	qDebug() << "largeC:";
+	for (auto p : obs.largeCars) {
+		qDebug() << p.rx() << " x " << p.ry();
+	}
+	//QMessageBox::information(nullptr, "Hi!", QCoreApplication::applicationDirPath() + QString(" --> %1 %2").arg(0));
 }
 
 void MainWindow::on_pushButton_2_clicked()

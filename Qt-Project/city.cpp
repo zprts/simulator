@@ -2,6 +2,7 @@
 
 void City::draw()
 {
+	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 	for (auto line : map_) {
 		glPushMatrix();
@@ -13,6 +14,7 @@ void City::draw()
 		glTranslatef(0.0f, 1.0f, 0.0f);
 	}
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void City::load(QString path)

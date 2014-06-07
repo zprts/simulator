@@ -35,7 +35,7 @@ void OpenGLTools::drawCube()
 	glVertex3f(-0.5f,-0.5f, 0.5f);    // Bottom Left Of The Quad (Front)
 	glVertex3f( 0.5f,-0.5f, 0.5f);    // Bottom Right Of The Quad (Front)
 
-	glColor3f(0.8f, 0.8f, 0.8f);
+	glColor3f(0.5f, 0.5f, 0.5f);
 
 		//glColor3f(0.2f, 0.2f,0.2f);    // Color Blue
 		glVertex3f( 0.5f, 0.5f,-0.5f);    // Top Right Of The Quad (Top)
@@ -71,9 +71,11 @@ void OpenGLTools::drawHuman()
 {
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.12);
-		glColor3f(0.8, 0.0, 0.0);
-		glScalef(0.3, 0.3, 1.0);
-		gluSphere(quadric_.get(), 0.1, 10, 10);
+		glColor3ub(255, 0, 0);
+		//glScalef(0.3, 0.3, 1.0);
+		//gluSphere(quadric_.get(), 0.1, 10, 10);
+		glScalef(0.03, 0.03, 0.1);
+		drawCube();
 		glColor3f(1.0, 1.0, 1.0);
 	glPopMatrix();
 }
@@ -82,18 +84,18 @@ void OpenGLTools::drawSmallCar()
 {
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.05);
-		glColor3f(0.2, 0.2, 0.95);
+		glColor3ub(0, 255, 0);
 		glScalef(0.3, 0.15, 0.1);
 		drawCube();
 		glColor3f(1.0, 1.0, 1.0);
-		glPopMatrix();
+	glPopMatrix();
 }
 
 void OpenGLTools::drawLargeCar()
 {
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.1);
-		glColor3f(0.95, 0.2, 0.2);
+		glColor3ub(0, 0, 255);
 		glScalef(0.35, 0.18, 0.15);
 		drawCube();
 		glColor3f(1.0, 1.0, 1.0);

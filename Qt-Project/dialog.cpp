@@ -94,3 +94,4 @@ void Dialog::setModal(bool modal)
         this->setWindowModality(Qt::NonModal);
     //ui->tableWidget->
 }
+

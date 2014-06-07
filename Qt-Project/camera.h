@@ -5,6 +5,7 @@
 #include <QtCore/qmath.h>
 #include "city.h"
 #include "simulation.h"
+#include <vector>
 
 
 class Camera
@@ -15,6 +16,19 @@ public:
 		step_[1] = qCos(angleZ_)*qSin(angleXY_);
 		step_[2] = qSin(angleZ_);
 	}
+	class MapBg : public std::vector<std::vector<int>> {
+	public:
+		void init(QImage *img) {
+			init(img->width(), img->height());
+		}
+		void init(int w, int h) {
+			clear();
+			resize(w, vector<int>(h, 0));
+		}
+	};
+	struct Observation {
+		std::vector<QPoint> people, smallCars, largeCars;
+	};
 	void		lookAt();
 
 	void		rotate(QPoint p);
@@ -23,7 +37,7 @@ public:
 
 	void		genView(Simulation *sim);
 	QImage		genImage(Simulation *sim);
-	void		genObservation(Simulation *sim); // <--TODO TODO TODO !!! return type ought to be an Observation... should use genImage inside
+	Observation genObservation(Simulation *sim);
 
 	QString		getName() {
 		return name_;
@@ -42,14 +56,15 @@ private:
     //DELETE: potrzebuje tego anuma, bo inaczej
     //przekazywanie 2d tablicy o nieznanych wymiarach sie wykrzacza
 
-    void fillColorMap(int x, int y,
-                      QImage *img,
-                      int color_map[IMG_WIDTH][IMG_HEIGHT],
-                      int area_number,
-                      QRgb color,
-                      int* pxl_number);
+public:
+	static void fillColorMap(int x, int y,
+					  QImage *img,
+					  MapBg &mapBg,
+					  int area_number,
+					  QRgb color,
+					  int &pxl_number);
 
-    std::vector<std::pair<int, int> > findCentres(QImage *img, QRgb color);
+	static std::vector<QPoint> findCentres(QImage *img, QRgb color);
 };
 
 #endif // CAMERA_H

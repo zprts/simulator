@@ -11,8 +11,9 @@ QGLWidget(parent), cc_(CamerasContainer::getInstance())
 void GLWidget::initializeGL() {
 	glClearColor(0, 0, 0.6f, 1);
 	glLoadIdentity();
-	glEnable(GL_TEXTURE_2D);
+
 	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
 //	glEnable(GL_LIGHTING);
 //	GLfloat ambient_light[ 4 ] =
 //	{
