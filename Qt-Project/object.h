@@ -5,44 +5,52 @@
 #include "tools.h"
 #include "path.h"
 
-enum class ObjectInitDir {North = 0, South = 2, East = 3, West = 1};
-
+//enum class ObjectInitDir {North = 0, South = 2, East = 3, West = 1};
+/*!
+ * \brief The Object class Obiekt dynamiczny dodawany do symulacji.
+ */
 class Object
 {
 public:
-    Object(int initTilePos, double initTileX, double initTileY, double speed, ObjectInitDir oid) :
-        initTilePos_(initTilePos), initTileX_(initTileX), initTileY_(initTileY), speed_(speed/4), oid_(oid) {
+    Object(double initX, double initY, double speed) :
+        initX_(initX), initY_(initY), speed_(speed/4) {
 	}
 	virtual void drawAt(double time) = 0;
-
-
-	void addPathItem(PIDir dir, PIR pir = PIR::Rs);
-
-	//virtual void	addTurnPathItem(PITT pitt, PIR pir, PID pid) = 0;
 
 	void	clearPath() {
 		p_.totalLength_ = 0.0d;
 		p_.wps_.clear();
 	}
 
-    void addPathIt(double x, double y);
+    void addPathItem(double x, double y);
 
 protected:
-	Path	p_;
-    double		initTilePos_;
-    double		initTileX_;
-    double		initTileY_;
-	double	speed_;
-	ObjectInitDir oid_;
-	double tileDParam_;
-	void	addStraightPathItem(PIDir dir);
+    /*!
+     * \brief p_ ścieżka po której porusza się obiekt
+     */
+    Path	p_;
+    /*!
+     * \brief initX_ początkowa pozycja x
+     */
+    double		initX_;
+    /*!
+     * \brief initY_ początkowa pozycja y
+     */
+    double		initY_;
+    /*!
+     * \brief speed prędkość
+     */
+    double	speed_;
+    /*!
+     * \brief currentAngle aktualny kąt obiektu
+     */
     double currentAngle = 0;
 };
 
 class Human : public Object {
 public:
-    Human(int initTilePos, double initTileX, double initTileY, double speed, ObjectInitDir oid) : Object(initTilePos, initTileX, initTileY, speed, oid) {
-		tileDParam_ = 0.06d;
+    Human(double initX, double initY, double speed) : Object(initX, initY, speed) {
+
 	}
 	virtual void drawAt(double time);
 private:
@@ -50,16 +58,17 @@ private:
 
 class SmallCar : public Object {
 public:
-    SmallCar(int initTilePos, double initTileX, double initTileY, double speed, ObjectInitDir oid) : Object(initTilePos, initTileX, initTileY, speed, oid) {
-        tileDParam_ = 0.32d;
-	}
+    SmallCar(double initX, double initY, double speed) : Object(initX, initY, speed) {
+
+    }
+
 	virtual void drawAt(double time);
 private:
 };
 class LargeCar : public Object {
 public:
-    LargeCar(int initTilePos, double initTileX, double initTileY, double speed, ObjectInitDir oid) : Object(initTilePos, initTileX, initTileY, speed, oid) {
-        tileDParam_ = 0.31d;
+    LargeCar(double initX, double initY, double speed) : Object(initX, initY, speed) {
+
 	}
 	virtual void drawAt(double time);
 private:

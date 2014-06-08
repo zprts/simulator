@@ -3,38 +3,22 @@
 
 void Human::drawAt(double time)
 {
-    //Tile::initPos(initTileX_, initTileY_, initTilePos_, tileDParam_);
-    glTranslated(initTileX_,initTileY_,0.0);
-	glRotated(static_cast<double>(oid_) * 90.0d, 0.0, 0.0, 1.0);
+    glTranslated(initX_,initY_,0.0);
 	p_.walk(speed_*time);
 	OpenGLTools::drawHuman();
 }
-
-void Object::addPathItem(PIDir dir, PIR pir)
+/*!
+ * \brief Object::addPathItem
+ * Dodaje wskazaną ściezkę poruszania się obiektu. Na podstawie różnicy między aktualnym
+ * i nastepnym położeniem oraz na podstawie aktalnego kąta obiektu oblicza wymagany kąt skrętu obiektu
+ * \param x składowa x wektora różnicy pomiędzy aktualnym i nastepnym położeniem
+ * \param y składowa y wektora różnicy pomiędzy aktualnym i nastepnym położeniem
+ */
+void Object::addPathItem(double x, double y)
 {
-	if (dir == PIDir::Forward || dir == PIDir::Backward) {
-		addStraightPathItem(dir);
-	} else {
-		p_.addTurnPathItem(dir, pir, tileDParam_);
-	}
-}
-
-
-void Object::addStraightPathItem(PIDir dir)
-{
-    p_.wps_.push_back(WayPoint(0.5d, 90.0d * static_cast<double>(dir)));
-    p_.totalLength_ += 0.5d;
-}
-
-void Object::addPathIt(double x, double y)
-{
-    //double x1 = x - initTileX_;
-    //double y1 = y - initTileY_;
-
     double angle = atan(y/x) * 180 / M_PI;
     double d = x / cos(angle * M_PI / 180);
     d = d < 0 ? -d : d;
-    //currentAngle += angle;
     angle = x < 0 ? 180+angle : angle;
     angle -= currentAngle;
     currentAngle += angle;
@@ -44,18 +28,14 @@ void Object::addPathIt(double x, double y)
 
 void SmallCar::drawAt(double time)
 {
-    //Tile::initPos(initTileX_, initTileY_, initTilePos_, tileDParam_);
-    glTranslated(initTileX_,initTileY_,0.0);
-	glRotated(static_cast<double>(oid_) * 90.0d, 0.0, 0.0, 1.0);
+    glTranslated(initX_,initY_,0.0);
 	p_.walk(speed_*time);
 	OpenGLTools::drawSmallCar();
 }
 
 void LargeCar::drawAt(double time)
 {
-    //Tile::initPos(initTileX_, initTileY_, initTilePos_, tileDParam_);
-    glTranslated(initTileX_,initTileY_,0.0);
-	glRotated(static_cast<double>(oid_) * 90.0d, 0.0, 0.0, 1.0);
+    glTranslated(initX_,initY_,0.0);
 	p_.walk(speed_*time);
 	OpenGLTools::drawLargeCar();
 }

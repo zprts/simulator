@@ -26,8 +26,7 @@ void GLWidget::initializeGL() {
 		QMessageBox::information(nullptr, "Loading texture error", e.getDesc());
 		QCoreApplication::exit(1);	//Hmmm, probably exist a little bit more elegant solution...
 	}
-    Simulation::getInstance()->load("");
-    //Simulation::getInstance()->readJSon();
+    Simulation::getInstance()->load();
 }
 void GLWidget::paintGL() {
 	cc_.use();
@@ -100,33 +99,30 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 	cc_.free();
 }
 
+/*!
+ * \brief GLWidget::mousePressEvent
+ * Pobiera pozycję kursora na ekranie. Jeśli dodatkowo jest włączony tryb PointMode, dodaje
+ * do okna dialogowa współrzędne wskazanego punktu.
+ * \param event
+ */
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     point_ = event->pos();
-    std::cout << point_.x() << "xx" << point_.y();
     if (addPointMode) {
         QVector3D pos = getPos(point_.x(), point_.y());
-
         d_->addPoint(pos.x(), pos.y());
         addPointMode = false;
-        //d_->setModal(true);
-
-        //QList<QStandardItem *> list;
-        //list << new QStandardItem("mru");
-
-        //pointModel->appendRow(list);
-        //pointModel->appendRow(new QStandardItem("QString::number(3.0d)"));
-
-    //if (mouse == 0) {
-        //std::cout<<pos.x()<<std::endl;
-        //Simulation::getInstance()->add(pos.x(),pos.y(),pos.z());
-        //mouse++;
-    //} else if (mouse == 1) {
-        //Simulation::getInstance()->addWayPoint(pos.x(),pos.y());
-    //}
     }
 }
 
+/*!
+ * \brief GLWidget::getPos
+ * Na podstawie dwuwymiarowego punktu na ekranie, oblicza odpowiadający mu trójwymiarowy punkt
+ * w scenie 3D
+ * \param posX współrzędna x punktu na ekranie
+ * \param posY współrzędna y punktu na ekranie
+ * \return punkt w scenie 3D
+ */
 QVector3D GLWidget::getPos(int posX, int posY)
 {
     GLdouble x1, y1, z1;
@@ -141,7 +137,6 @@ QVector3D GLWidget::getPos(int posX, int posY)
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     winX = posX;
-    double scale = (double)viewport[2]/256;
     winY = viewport[3]-posY;
 
     gluUnProject(winX, winY, 0.0d, model_view, projection,
@@ -163,7 +158,11 @@ void GLWidget::setDialog(Dialog *d)
 {
     d_ = d;
 }
-
+/*!
+ * \brief GLWidget::setAddPointMode
+ * Przełącza tryb w którym użytkownik może wskazać punkt, który zostanie dodany do scenariusza.
+ * \param mode
+ */
 void GLWidget::setAddPointMode(bool mode) {
     addPointMode = mode;
 }

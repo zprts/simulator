@@ -1,8 +1,8 @@
 #include "simulation.h"
 
-void Simulation::load(QString filePath) throw(Exception)
+void Simulation::load()
 {
-	city_.load("Path there is probably not a good solution..");
+    city_.load();
     //obj_.push_back(std::shared_ptr<Object>(new Human(8, 0, 0, 0.5d, ObjectInitDir::North)));
 
 	//obj_[0].get()->addPathItem(PIDir::Forward);
@@ -27,25 +27,42 @@ void Simulation::drawAll()
 		glPushMatrix();
 			//OpenGLTools::drawSmallCar();
 			o.get()->drawAt(time_);
-		glPopMatrix();
+        glPopMatrix();
 	}
 }
-
+/*!
+ * \brief Simulation::addObject
+ * Dodaje obiekt do symulacji.
+ * \param type typ obiektu
+ * \param speed prędkość obiektu
+ * \param x współrzędna x
+ * \param y współrzędna y
+ */
 void Simulation::addObject(QString type, double speed, double x, double y)
 {
     if (type == "Human")
-       obj_.push_back(std::shared_ptr<Object>(new Human(8, x, y, speed, ObjectInitDir::North)));
+       obj_.push_back(std::shared_ptr<Object>(new Human(x, y, speed)));
     else if (type == "Small Car")
-       obj_.push_back(std::shared_ptr<Object>(new SmallCar(8, x, y, speed, ObjectInitDir::North)));
+       obj_.push_back(std::shared_ptr<Object>(new SmallCar(x, y, speed)));
     else if (type == "Large Car")
-       obj_.push_back(std::shared_ptr<Object>(new LargeCar(8, x, y, speed, ObjectInitDir::North)));
+       obj_.push_back(std::shared_ptr<Object>(new LargeCar(x, y, speed)));
 }
-
+/*!
+ * \brief Simulation::addPath
+ * Dodaje ścieżkę ruchu obiektu.
+ * \param idObject id obiektu
+ * \param x współrzędna x następnego punktu
+ * \param y współrzędna y następnego punktu
+ */
 void Simulation::addPath(int idObject, double x, double y)
 {
-    obj_[idObject].get()->addPathIt(x, y);
+    obj_[idObject].get()->addPathItem(x, y);
 }
-
+/*!
+ * \brief Simulation::incr_time
+ * Zwiększa czas symulacji.
+ * \return aktualny czas symulacji
+ */
 double Simulation::incr_time()
 {
     time_ = time_ + 0.01;

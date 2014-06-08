@@ -1,13 +1,16 @@
-#ifndef DIALOG_HPP
-#define DIALOG_HPP
+#ifndef DIALOG_H
+#define DIALOG_H
 
+#include "jsonparser.h"
 #include <QDialog>
 #include <QStandardItemModel>
-
 namespace Ui {
 class Dialog;
 }
-
+/*!
+ * \brief The Dialog class
+ * Okno dialogowe do dodawania nowych obiektów do scenariusza.
+ */
 class Dialog : public QDialog
 {
     Q_OBJECT
@@ -15,17 +18,13 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
-    QPushButton *getPushButton();
-    //QStandardItemModel *getModelList();
-
     void addPoint(double x, double y);
 
-    QStandardItemModel *modelList;
+    QPushButton *getPushButton();
+    QStandardItemModel *modelTable;
+
 private slots:
-	void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
-
     void on_buttonBox_accepted();
 
 private:

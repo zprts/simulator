@@ -1,6 +1,10 @@
 #include "jsonparser.h"
-#include "simulation.h"
-
+/*!
+ * \brief JsonParser::readJson
+ * Analizuje plik ze scenariuszem w formacie json, dodaje obiekty do
+ * symulacji i tworzy ścieżki po których obiekty będą się poruszały
+ * \param fileName ścieżka do pliku ze scenariuszem
+ */
 void JsonParser::readJson(QString fileName)
 {
    QString val;
@@ -42,7 +46,13 @@ void JsonParser::readJson(QString fileName)
       }
    }
 }
-
+/*!
+ * \brief JsonParser::addObject
+ * Dodaje obiekt do pliku json
+ * \param type typ obiektu
+ * \param speed prędkość obiektu
+ * \param model model tabeli ze wskazanymi punktami
+ */
 void JsonParser::addObject(QString type, double speed, QStandardItemModel *model)
 {
     QJsonValue type_ = type;
@@ -80,7 +90,11 @@ void JsonParser::addObject(QString type, double speed, QStandardItemModel *model
     file.write(d.toJson());
     file.close();
 }
-
+/*!
+ * \brief JsonParser::setFile
+ * Ustawia ścieżkę do pliku w którym będą zapisywane dane dotyczące scenariusza.
+ * \param name ścieżka do pliku
+ */
 void JsonParser::setFile(QString name)
 {
     fileName = name;

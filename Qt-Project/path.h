@@ -28,8 +28,6 @@ public:
 
 	QVector<WayPoint> wps_;
 
-	void	addTurnPathItem(PIDir pid, PIR pir, double tileDParam);
-
 	void	updateTotalLength();
 	double	getTotalLength() {
 		return totalLength_;

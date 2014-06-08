@@ -8,7 +8,7 @@ class City
 {
 public:
 	void draw();
-	void load(QString path);
+    void load();
 
 public:
 	QVector<QVector<Tile>> map_;

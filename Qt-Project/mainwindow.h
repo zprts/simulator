@@ -11,7 +11,9 @@
 namespace Ui {
 class MainWindow;
 }
-
+/*!
+ * \brief The MainWindow class Główne okno aplikacji
+ */
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -49,12 +51,25 @@ private:
 	QTimer timer_;
 	CamerasContainer &cc_ = CamerasContainer::getInstance();
     Dialog dialog_;
+
+    /*!
+     * \brief model model listy do wyświetlania obserwacji generowanyc przez kamery
+     */
     QStandardItemModel *model;
 
     void update();
-
-    int timerId;
+    /*!
+     * \brief timerSlider identyfikator timera do przesuwania paska symulacji
+     */
+    int timerSlider;
+    /*!
+     * \brief timerObs identyfikator timera do generowania obserwacji
+     */
     int timerObs;
+    /*!
+     * \brief timerEvent metoda obsługująca zdarzenia czasowe
+     * \param timer timer który wygenerował zdarzenie
+     */
     void timerEvent(QTimerEvent *timer);
     void addObservation(QString type, double x, double y);
     void genObservation();

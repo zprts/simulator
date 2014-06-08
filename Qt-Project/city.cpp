@@ -17,7 +17,7 @@ void City::draw()
 	glDisable(GL_TEXTURE_2D);
 }
 
-void City::load(QString path)
+void City::load()
 {
 	map_.clear();
 	map_.resize(4);

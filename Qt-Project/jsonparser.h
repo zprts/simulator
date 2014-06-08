@@ -1,6 +1,7 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
 
+#include "simulation.h"
 #include <QStandardItemModel>
 #include <QFile>
 #include <QDebug>
@@ -9,6 +10,10 @@
 #include <QStandardItemModel>
 #include <QJsonArray>
 
+/*!
+ * \brief The JsonParser class
+ * Moduł do obsługi plików w formacie json.
+ */
 class JsonParser
 {
 public:
@@ -24,8 +29,13 @@ public:
 private:
     JsonParser() {}
     explicit JsonParser(JsonParser &) {}
-
+    /*!
+     * \brief fileName ścieżka do bieżacego pliku json
+     */
     QString fileName;
+    /*!
+     * \brief objects tablica obiektów dodawanych do scenariusza
+     */
     QJsonArray objects;
 };
 

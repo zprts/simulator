@@ -15,7 +15,7 @@ public:
 		static Simulation sim;
 		return &sim;
 	}
-	void load(QString filePath) throw(Exception);
+    void load();
 	void setSimulationTime(double time) {
 		time_ = time;
 	}
