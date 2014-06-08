@@ -54,4 +54,3 @@ void Dialog::on_buttonBox_accepted()
     while (modelTable->rowCount() > 0)
         modelTable->removeRow(0);
 }
-

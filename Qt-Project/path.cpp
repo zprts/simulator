@@ -3,7 +3,7 @@
 Path::Path()
 {
 }
-
+/*
 void Path::updateTotalLength()
 {
 	totalLength_ = 0.0d;
@@ -11,7 +11,7 @@ void Path::updateTotalLength()
 		totalLength_ += wp.d_;
 	}
 }
-
+*/
 void Path::walk(double dist)
 {
 	dist = std::modf(dist, &dist) * totalLength_;

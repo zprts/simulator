@@ -27,8 +27,6 @@ public:
     void setDialog(Dialog *d);
     void setAddPointMode(bool mode);
     QVector3D   getPos ( int posX, int posY );
-    //public slots:
-        void test();
 
     signals:
         void statusEvent(const QString &msg);

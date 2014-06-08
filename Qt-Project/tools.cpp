@@ -1,5 +1,4 @@
 #include "tools.h"
-std::auto_ptr<GLUquadric> OpenGLTools::quadric_(gluNewQuadric());
 
 GLuint OpenGLTools::loadTexture(QString path) throw (Exception) {
 	QImage t, b;
@@ -72,8 +71,6 @@ void OpenGLTools::drawHuman()
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.12);
 		glColor3ub(255, 0, 0);
-		//glScalef(0.3, 0.3, 1.0);
-		//gluSphere(quadric_.get(), 0.1, 10, 10);
 		glScalef(0.03, 0.03, 0.1);
 		drawCube();
 		glColor3f(1.0, 1.0, 1.0);

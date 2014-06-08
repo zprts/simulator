@@ -48,36 +48,6 @@ void GLWidget::resizeGL(int w, int h) {
 	gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
-void GLWidget::test() {
-	//QMessageBox::information(nullptr, "", QString::number(a.a));
-	/*
-	timer_.stop();
-	glPushMatrix();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
-		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-		Tile t;
-		t.draw();
-		float tab[4]{};
-		glGetFloatv(GL_VIEWPORT, tab);
-		//QMessageBox::information(nullptr, "Size...", QString("[ %1 x %2 ] --- [ %3 x %4 ]").arg(tab[0]).arg(tab[1]).arg(tab[2]).arg(tab[3]));
-		QImage img(tab[2], tab[3], QImage::Format_RGB32);
-		glReadPixels(0, 0, tab[2], tab[3], GL_BGRA, GL_UNSIGNED_BYTE, img.bits());
-		//img = img.rgbSwapped();
-		//QMessageBox::information(nullptr, "a", "a");
-		if (glGetError()) {
-			//QMessageBox::information(nullptr, "", "");
-		}
-		QString str = "test.bmp"; //QCoreApplication::applicationDirPath() + "/test.bmp";
-		bool r = img.save(str);
-		//QMessageBox::information(nullptr, "b", QString("b %1").arg(static_cast<int>(r)));
-	glPopMatrix();
-	timer_.start();
-	*/
-	//glLoadIdentity();
-	//gluLookAt(0.0, 2.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-}
-
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 

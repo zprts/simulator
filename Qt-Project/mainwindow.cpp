@@ -18,7 +18,7 @@ ui(new Ui::MainWindow)
     connect(&timer_, SIGNAL(timeout()), ui->widget, SLOT(updateGL()));
 	timer_.start(25);
     connect(ui->widget, SIGNAL(statusEvent(QString)), this, SLOT(setStatusBarText(QString)));
-    connect(dialog_.getPushButton(), SIGNAL(clicked()), this, SLOT(on_pushButtonDialog_clicked()));
+	connect(dialog_.getPushButton(), SIGNAL(clicked()), this, SLOT(pushButtonDialog_clicked()));
     model = new QStandardItemModel(this);
     ui->listView->setModel(model);
     ui->pushButton_7->setEnabled(false);
@@ -57,7 +57,7 @@ void MainWindow::setStatusBarText(const QString &msg)
  * Pobiera informację z okna dialogowego i uruchamia tryb, wktórym użytkownik może wskazać
  * punkt na widgetie potrzebny do zamodelowania ruchu obiektu.
  */
-void MainWindow::on_pushButtonDialog_clicked()
+void MainWindow::pushButtonDialog_clicked()
 {
     ui->widget->setDialog(&dialog_);
     ui->widget->setAddPointMode(true);

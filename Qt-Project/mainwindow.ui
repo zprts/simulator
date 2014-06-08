@@ -128,9 +128,15 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QListView" name="listView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>150</width>
           <height>0</height>
          </size>
         </property>

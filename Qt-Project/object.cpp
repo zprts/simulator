@@ -7,13 +7,7 @@ void Human::drawAt(double time)
 	p_.walk(speed_*time);
 	OpenGLTools::drawHuman();
 }
-/*!
- * \brief Object::addPathItem
- * Dodaje wskazaną ściezkę poruszania się obiektu. Na podstawie różnicy między aktualnym
- * i nastepnym położeniem oraz na podstawie aktalnego kąta obiektu oblicza wymagany kąt skrętu obiektu
- * \param x składowa x wektora różnicy pomiędzy aktualnym i nastepnym położeniem
- * \param y składowa y wektora różnicy pomiędzy aktualnym i nastepnym położeniem
- */
+
 void Object::addPathItem(double x, double y)
 {
     double angle = atan(y/x) * 180 / M_PI;
