@@ -11,7 +11,7 @@ class Object
 {
 public:
     Object(int initTilePos, double initTileX, double initTileY, double speed, ObjectInitDir oid) :
-        initTilePos_(initTilePos), initTileX_(initTileX), initTileY_(initTileY), speed_(speed), oid_(oid) {
+        initTilePos_(initTilePos), initTileX_(initTileX), initTileY_(initTileY), speed_(speed/4), oid_(oid) {
 	}
 	virtual void drawAt(double time) = 0;
 

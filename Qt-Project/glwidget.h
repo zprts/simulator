@@ -26,6 +26,7 @@ public:
 
     void setDialog(Dialog *d);
     void setAddPointMode(bool mode);
+    QVector3D   getPos ( int posX, int posY );
     //public slots:
         void test();
 
@@ -36,8 +37,7 @@ private:
     QPoint			point_{};
 	CamerasContainer &cc_;
 	void	mouseMoveEvent ( QMouseEvent * event );
-	void	mousePressEvent ( QMouseEvent * event );
-    QVector3D   getPos ( int posX, int posY );
+    void	mousePressEvent ( QMouseEvent * event );
 
     bool addPointMode = false;
 

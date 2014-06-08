@@ -86,6 +86,10 @@ std::vector<QPoint> Camera::findCentres(QImage *img, QRgb color)
  * obliczonych na podstawie sredniej arytmetycznej.
  */
 {
+    float tab[4]{};
+    glGetFloatv(GL_VIEWPORT, tab);
+    const double scale = (double) tab[2]/256;
+
 	const int width = img->width();
 	const int height = img->height();
 
@@ -126,8 +130,8 @@ std::vector<QPoint> Camera::findCentres(QImage *img, QRgb color)
 				}
 			}
 		}
-		temp_x = temp_x/color_areas_pxl_number[k-1];
-		temp_y = temp_y/color_areas_pxl_number[k-1];
+        temp_x = scale*(temp_x/color_areas_pxl_number[k-1]);
+        temp_y = scale*(temp_y/color_areas_pxl_number[k-1]);
 		centres.push_back(QPoint(temp_x, temp_y));
 	}
 	return centres;

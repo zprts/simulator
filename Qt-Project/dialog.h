@@ -20,8 +20,6 @@ public:
 
     void addPoint(double x, double y);
 
-    void setModal(bool modal);
-
     QStandardItemModel *modelList;
 private slots:
 	void on_pushButton_clicked();

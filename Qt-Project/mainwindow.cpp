@@ -52,17 +52,24 @@ void MainWindow::on_pushButton_clicked()
 		obs = cc_.getCurrentCam()->genObservation(Simulation::getInstance());
 	cc_.free();
 
-	qDebug() << "\npeople:";
+    QVector3D p_;
+    //qDebug() << "\npeople:";
 	for (auto p : obs.people) {
-		qDebug() << p.rx() << " x " << p.ry();
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Human", p_.x(), p_.y());
 	}
-	qDebug() << "smallC:";
+    //qDebug() << "smallC:";
 	for (auto p : obs.smallCars) {
-		qDebug() << p.rx() << " x " << p.ry();
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Small Car", p_.x(), p_.y());
 	}
-	qDebug() << "largeC:";
+    //qDebug() << "largeC:";
 	for (auto p : obs.largeCars) {
-		qDebug() << p.rx() << " x " << p.ry();
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Large Car", p_.x(), p_.y());
 	}
 	//QMessageBox::information(nullptr, "Hi!", QCoreApplication::applicationDirPath() + QString(" --> %1 %2").arg(0));
 }
@@ -70,11 +77,14 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
 	//ui->tabWidget->addTab(new QWidget(), "Test");
-	cc_.use();
-		cc_.cameras_.push_back(Camera());
-		cc_.currentCam = cc_.cameras_.size() - 1;
-		cc_.genTab(ui->tabWidget);
-	cc_.free();
+    cc_.use();
+    if(ui->lineEdit->text() == "")
+        cc_.cameras_.push_back(Camera());
+    else
+        cc_.cameras_.push_back(Camera(ui->lineEdit->text()));
+        cc_.currentCam = cc_.cameras_.size() - 1;
+        cc_.genTab(ui->tabWidget);
+    cc_.free();
 	//img.save("testcam.jpg");
 }
 
@@ -126,6 +136,8 @@ void MainWindow::on_pushButton_5_clicked()
 void MainWindow::on_pushButton_3_clicked()
 {
         timerId = startTimer(100);
+        //genObservation();
+        timerObs = startTimer(1000);
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_7->setEnabled(true);
 }
@@ -133,13 +145,17 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_7_clicked()
 {
     killTimer(timerId);
+    killTimer(timerObs);
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_7->setEnabled(false);
 }
 
 void MainWindow::timerEvent(QTimerEvent *timer)
 {
-    ui->horizontalSlider->setSliderPosition(static_cast<int>(Simulation::getInstance()->incr_time()*200.0d));
+    if (timer->timerId() == timerId)
+        ui->horizontalSlider->setSliderPosition(static_cast<int>(Simulation::getInstance()->incr_time()*200.0d));
+    if (timer->timerId() == timerObs)
+        genObservation();
 }
 
 void MainWindow::on_pushButton_6_clicked()
@@ -147,4 +163,42 @@ void MainWindow::on_pushButton_6_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.*)"));
     JsonParser::getInstance()->setFile(fileName);
     ui->pushButton_4->setEnabled(true);
+}
+
+void MainWindow::addObservation(QString type, double x, double y)
+{
+    model->appendRow(new QStandardItem(
+                        QString(
+                        cc_.getCurrentCam()->getName() + ": " + type +
+                        " on pos: " + QString::number(x) +
+                        "," + QString::number(y))
+                        ));
+}
+
+void MainWindow::genObservation()
+{
+    Camera::Observation obs;
+    cc_.use();
+        obs = cc_.getCurrentCam()->genObservation(Simulation::getInstance());
+    cc_.free();
+
+    QVector3D p_;
+    //qDebug() << "\npeople:";
+    for (auto p : obs.people) {
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Human", p_.x(), p_.y());
+    }
+    //qDebug() << "smallC:";
+    for (auto p : obs.smallCars) {
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Small Car", p_.x(), p_.y());
+    }
+    //qDebug() << "largeC:";
+    for (auto p : obs.largeCars) {
+        //qDebug() << p.rx() << " x " << p.ry();
+        p_ = ui->widget->getPos(p.rx(), p.ry());
+        addObservation("Large Car", p_.x(), p_.y());
+    }
 }

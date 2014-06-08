@@ -21,7 +21,7 @@ public:
 	}
     void drawAll();
 
-    void addObject(QString type, double x, double y);
+    void addObject(QString type, double speed, double x, double y);
     void addPath(int idObject, double x, double y);
 
     double incr_time();

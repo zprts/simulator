@@ -18,6 +18,7 @@ void JsonParser::readJson(QString fileName)
    for (int i = 0; i < objects.size(); i++) {
       QJsonObject obj = objects[i].toObject();
       QString type = obj.value("TypeObject").toString();
+      double speed = obj.value("Speed").toDouble();
 
       QJsonArray points = obj.value(QString("Points")).toArray();
 
@@ -25,7 +26,7 @@ void JsonParser::readJson(QString fileName)
       double CoX = point.value(QString("CoordX")).toDouble();
       double CoY = point.value(QString("CoordY")).toDouble();
 
-      Simulation::getInstance()->addObject(type, CoX, CoY);
+      Simulation::getInstance()->addObject(type, speed, CoX, CoY);
 
       double CoXOld = CoX;
       double CoYOld = CoY;
@@ -42,11 +43,13 @@ void JsonParser::readJson(QString fileName)
    }
 }
 
-void JsonParser::addObject(QString type, QStandardItemModel *model)
+void JsonParser::addObject(QString type, double speed, QStandardItemModel *model)
 {
     QJsonValue type_ = type;
     QJsonObject object;
     object.insert("TypeObject", type_);
+
+    object.insert("Speed", speed);
 
     QJsonArray array;
     QJsonObject point;
@@ -57,7 +60,6 @@ void JsonParser::addObject(QString type, QStandardItemModel *model)
         point.insert("CoordX", value);
         value = model->takeItem(i,1)->data(Qt::DisplayRole).toDouble();
         point.insert("CoordY", value);
-        point.insert("Time", value);
         array.insert(i,point);
     }
     value = array;

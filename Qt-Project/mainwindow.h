@@ -51,11 +51,13 @@ private:
     Dialog dialog_;
     QStandardItemModel *model;
 
-    QTimer *timer2;
     void update();
 
     int timerId;
+    int timerObs;
     void timerEvent(QTimerEvent *timer);
+    void addObservation(QString type, double x, double y);
+    void genObservation();
 };
 
 #endif // MAINWINDOW_H

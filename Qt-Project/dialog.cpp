@@ -15,7 +15,7 @@ Dialog::Dialog(QWidget *parent) :
 
     modelList = new QStandardItemModel(this);
     QStringList listLabel;
-    listLabel << "coord x" << "coord y" << "time";
+    listLabel << "coord x" << "coord y";
     modelList->setHorizontalHeaderLabels(listLabel);
 
     ui->tableView->setModel(modelList);
@@ -41,7 +41,7 @@ void Dialog::on_pushButton_clicked()
   //  msgBox.exec();
     //QStandardItemModel *modelList;
     //modelList = new QStandardItemModel(this);
-    this->setWindowModality(Qt::NonModal);
+    //this->setWindowModality(Qt::NonModal);
 }
 
 QPushButton *Dialog::getPushButton() {
@@ -81,17 +81,8 @@ void Dialog::on_pushButton_2_clicked()
 
 void Dialog::on_buttonBox_accepted()
 {
-    JsonParser::getInstance()->addObject(ui->comboBox->currentText(), modelList);
+    JsonParser::getInstance()->addObject(ui->comboBox->currentText(), ui->lineEdit->text().toDouble(), modelList);
     while (modelList->rowCount() > 0)
         modelList->removeRow(0);
-}
-
-void Dialog::setModal(bool modal)
-{
-    if (modal)
-        this->setWindowModality(Qt::ApplicationModal);
-    else
-        this->setWindowModality(Qt::NonModal);
-    //ui->tableWidget->
 }
 

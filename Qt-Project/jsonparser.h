@@ -18,7 +18,7 @@ public:
     }
 
     void readJson(QString fileName);
-    void addObject(QString type, QStandardItemModel *model);
+    void addObject(QString type, double speed, QStandardItemModel *model);
     void setFile(QString name);
 
 private:

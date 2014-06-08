@@ -103,6 +103,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     point_ = event->pos();
+    std::cout << point_.x() << "xx" << point_.y();
     if (addPointMode) {
         QVector3D pos = getPos(point_.x(), point_.y());
 
@@ -140,6 +141,7 @@ QVector3D GLWidget::getPos(int posX, int posY)
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     winX = posX;
+    double scale = (double)viewport[2]/256;
     winY = viewport[3]-posY;
 
     gluUnProject(winX, winY, 0.0d, model_view, projection,
